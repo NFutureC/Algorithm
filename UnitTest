@@ -1,0 +1,174 @@
+using System;
+using System.Text;
+using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+namespace Algorithm.Test
+{
+    /// <summary>
+    /// Summary description for UnitTest1
+    /// </summary>
+    [TestClass]
+    public class UnitTest
+    {
+        public UnitTest()
+        {
+            //
+            // TODO: Add constructor logic here
+            //
+        }
+
+        private TestContext testContextInstance;
+
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
+
+        #region Additional test attributes
+        //
+        // You can use the following additional attributes as you write your tests:
+        //
+        // Use ClassInitialize to run code before running the first test in the class
+        // [ClassInitialize()]
+        // public static void MyClassInitialize(TestContext testContext) { }
+        //
+        // Use ClassCleanup to run code after all tests in a class have run
+        // [ClassCleanup()]
+        // public static void MyClassCleanup() { }
+        //
+        // Use TestInitialize to run code before running each test 
+        // [TestInitialize()]
+        // public void MyTestInitialize() { }
+        //
+        // Use TestCleanup to run code after each test has run
+        // [TestCleanup()]
+        // public void MyTestCleanup() { }
+        //
+        #endregion
+        [TestMethod]
+        public void ReverseDoublyLinkedListTest()
+        {
+            ReverseDoublyLinkedListTestAssert(CreateDoublyLinkedList(), "4<->3<->2<->1<->0<->END");
+            ReverseDoublyLinkedListTestAssert(CreateDoublyLinkedList2(), "NULL");
+            ReverseDoublyLinkedListTestAssert(CreateDoublyLinkedList3(), "0<->END");
+        }
+        public void ReverseDoublyLinkedListTestAssert(DoublyLinkedNode head, string list)
+        {
+            var reversed=Algorithm.ReverseDoublyLinkedList(head);
+            Assert.AreEqual(reversed==null?"NULL":reversed.ToString(), list);
+        }
+        [TestMethod]
+        public void CycleLinkedListTest()
+        {
+            IsCycleLinkedListAssert(CreateLinkedList(), false);
+            IsCycleLinkedListAssert(CreateLinkedList2(), true);
+            IsCycleLinkedListAssert(CreateLinkedList3(), true);
+            IsCycleLinkedListAssert(CreateLinkedList4(), true);
+        }
+        public void IsCycleLinkedListAssert(Node head, bool isCycle)
+        {
+            Assert.AreEqual(Algorithm.IsCycleLinkedList(head), isCycle);
+        }
+        [TestMethod]
+        public void FibonacciTest()
+        {
+            FibonacciAssert(0, 0);
+            FibonacciAssert(1, 1);
+            FibonacciAssert(2, 1);
+            FibonacciAssert(3, 2);
+            FibonacciAssert(4, 3);
+            FibonacciAssert(5, 5);
+            FibonacciAssert(6, 8);
+            FibonacciAssert(7, 13);
+            FibonacciAssert(8, 21);
+            FibonacciAssert(9, 34);
+            FibonacciAssert(10, 55);
+
+            FibonacciAssert(40, 102334155);
+            FibonacciAssert(100, 3736710778780434371);
+        }
+        public void FibonacciAssert(long n, long result)
+        {
+            Assert.AreEqual(Algorithm.Fibonacci(n), result);
+        }
+
+        #region TestCases
+        static DoublyLinkedNode CreateDoublyLinkedList()
+        {
+            DoublyLinkedNode head = new DoublyLinkedNode() { Value = 0 };
+            DoublyLinkedNode current = head;
+            for (int i = 1; i < 5; i++)
+            {
+                DoublyLinkedNode node = new DoublyLinkedNode() { Value = i };
+                current.NextNode = node;
+                current.NextNode.PreNode = current;
+                current = node;
+            }
+            return head;
+        }
+        static DoublyLinkedNode CreateDoublyLinkedList2()
+        {
+            DoublyLinkedNode head = null;
+            return head;
+        }
+        static DoublyLinkedNode CreateDoublyLinkedList3()
+        {
+            DoublyLinkedNode head = new DoublyLinkedNode() { Value = 0 };
+            head.PreNode = null;
+            head.NextNode = null;
+            return head;
+        }
+        static Node CreateLinkedList()
+        {
+            Node head = new Node() { IsVisited = false, Value = 0 };
+            Node current = head;
+            for (int i = 1; i < 5; i++)
+            {
+                Node node = new Node() { IsVisited = false, Value = i };
+                current.NextNode = node;
+                current = node;
+            }
+            return head;
+        }
+        static Node CreateLinkedList2()
+        {
+            Node head = new Node() { IsVisited = false, Value = 0 };
+            Node current = head;
+            for (int i = 1; i < 5; i++)
+            {
+                Node node = new Node() { IsVisited = false, Value = i };
+                current.NextNode = node;
+                current = node;
+            }
+            current.NextNode = head;
+            return head;
+        }
+        static Node CreateLinkedList3()
+        {
+            Node head = new Node() { IsVisited = false, Value = 0 };
+            head.NextNode = head;
+            return head;
+        }
+        static Node CreateLinkedList4()
+        {
+            Node head = new Node() { IsVisited = false, Value = 0 };
+            Node node = new Node() { IsVisited = false, Value = 2 };
+            head.NextNode = node;
+            head.NextNode.NextNode = node;
+            return head;
+        }
+        #endregion
+    }
+}
